@@ -1,13 +1,38 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose'
 
-export interface IMealPlan extends Document {
-    date: Date;
-    meals: { type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }[];
+interface Meal {
+  date: Date
+  recipes: {
+    recipeId: mongoose.Types.ObjectId
+    mealType: string
+  }[]
 }
 
-const MealPlanSchema: Schema = new Schema({
-    date: { type: Date, required: true },
-    meals: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Recipe' }],
-});
+export interface IMealPlan extends Document {
+  name: string
+  userId: mongoose.Types.ObjectId
+  startDate: Date
+  endDate: Date
+  meals: Meal[]
+}
 
-export default mongoose.model<IMealPlan>('MealPlan', MealPlanSchema);
+const MealSchema: Schema = new Schema({
+  date: { type: Date, required: true },
+  recipes: [
+    {
+      recipeId: { type: mongoose.Types.ObjectId, ref: 'Recipe' },
+      mealType: { type: String, required: true },
+    },
+  ],
+})
+
+const MealPlanSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  userId: { type: mongoose.Types.ObjectId, ref: 'User' },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  meals: [MealSchema],
+})
+
+const MealPlan = mongoose.model<IMealPlan>('MealPlan', MealPlanSchema)
+export default MealPlan
