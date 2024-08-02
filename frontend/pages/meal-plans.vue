@@ -1,9 +1,6 @@
 <template>
-  <div>
-    <RecipeList />
-  </div>
+  <MealPlanList />
 </template>
 
 <script setup>
-
 </script>

@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   },
   nitro: {
     devProxy: {
-      '': {
+      '/api': {
         target: process.env.NUXT_PUBLIC_API_BASE,
         changeOrigin: true,
       },
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
   plugins: [],
   components: true,
 
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
 
   typescript: {
     strict: true,
@@ -46,6 +46,9 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: ['vue'],
+    },
+    server: {
+      port: 3000,
     },
   },
 
